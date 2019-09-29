@@ -1,0 +1,108 @@
+<!-- <!DOCTYPE html> 
+<html>
+  <head>
+    <title>
+      Simple Hangman Javascript
+    </title>
+    <link href="hangman.css" rel="stylesheet">
+    <script src="hangman.js"></script>
+  </head>
+  <body>
+    <div id="hangman-wrap">
+    
+      <div id="hangman-left">
+        <img id="hangman-img" src="hangman.png"/>
+      </div>
+
+      
+      <div id="hangman-right">
+        
+        <div id="hangman-words">Gussed word</div>
+
+      
+        <div id="hangman-char">Remaining Gussed </div>
+
+        
+        <div id="hangman-bottom">
+          Lives Left: <span id="hangman-lives"></span> 
+          <input type="button" value="Reset" id="hangman-reset" disabled/>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hangman</title>
+ 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="jumbotron">
+      <h1>Hangman Game</h1>
+      <p>Gussed Artist Name</p>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-tilte">word to Gussed</h3>
+      </div>
+      <div class="panel-body">
+        <h2>--------</h2>
+      </div>
+    </div>
+
+
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        Wrong Gusses: <span id="wrongGusses"></span>
+      </div>
+    </div>
+
+
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        Gusses Left: <span id="numgusses"></span>
+      </div>
+    </div>
+
+
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        Win counter: <span id="winCounter"></span>
+      </div>
+    </div>
+
+
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        Loss counter: <span id="lossCounter"></span>
+      </div>
+    </div>
+
+    <script src="logic.js"></script>
+
+
+
+
+
+
+  </div>
+
+</body>
+
+</html>
