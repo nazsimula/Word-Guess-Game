@@ -1,55 +1,118 @@
-<!-- <!DOCTYPE html> 
-<html>
-  <head>
-    <title>
-      Simple Hangman Javascript
-    </title>
-    <link href="hangman.css" rel="stylesheet">
-    <script src="hangman.js"></script>
-  </head>
-  <body>
-    <div id="hangman-wrap">
-    
-      <div id="hangman-left">
-        <img id="hangman-img" src="hangman.png"/>
-      </div>
-
-      
-      <div id="hangman-right">
-        
-        <div id="hangman-words">Gussed word</div>
-
-      
-        <div id="hangman-char">Remaining Gussed </div>
-
-        
-        <div id="hangman-bottom">
-          Lives Left: <span id="hangman-lives"></span> 
-          <input type="button" value="Reset" id="hangman-reset" disabled/>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>-->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Hangman</title>
- 
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+    
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-  
+  <script language="Javascript">
+  var wordOptions = ["kane", "luke", "kenny", "brown"];
+var selectedWord = "";
+var lettersinWord = [];
+var numBlanks = 0;
+var blankAndSuccesses = [];
+var wrongLetters = [];
+
+
+
+//game counters
+var win = 0;
+var loss = 0;
+var gussesLeft = 9;
+
+//function
+//*****************************************
+function startGame() {
+
+    selectedWord = wordOptions[Math.floor(Math.random() * wordOptions.length)];
+    console.log("selectedWord>>>" + selectedWord);
+    lettersinWord = selectedWord.split("");
+    numBlanks = lettersinWord.length;
+
+    console.log(selectedWord);
+    //console.log(lettersinWord);
+
+
+    guessesLeft = 9;
+    wrongLetters = [];
+    blankAndSuccesses = [];
+
+    for (var i = 0; i < numBlanks; i++) {
+        blankAndSuccesses.push("_");
+    }
+    document.getElementById("wordToGuess").innerHTML = blankAndSuccesses.join("");
+    document.getElementById("numguesses").innerHTML = guessesLeft;
+    document.getElementById("win").innerHTML = win;
+    document.getElementById("loss").innerHTML = loss;
+}
+function checkLetters(letter) {
+    var isLetterInWord = false;
+    for (var i = 0; i < numBlanks; i++) {
+        if (selectedWord[i] == letter) {
+            isLetterInWord = true;
+        }
+    }
+    if (isLetterInWord)
+        for (var i = 0; i < numBlanks; i++) {
+            if (selectedWord[i] == letter) {
+                blankAndSuccesses[i] = letter;
+            }
+        }
+
+    else {
+        wrongLetters.push(letter);
+        guessesLeft--
+        console.log("wrongLetter")
+    }
+}
+    function roundComplete() {
+        document.getElementById("numguesses").innerHTML = guessesLeft;
+        document.getElementById("wordToGuess").innerHTML = blankAndSuccesses.join(" ");
+        document.getElementById("wrongLetters").innerHTML = wrongLetters.join(" ");
+        if (lettersinWord.toString() == blankAndSuccesses.toString()) {
+            win++;
+            document.getElementById("win").innerHTML = win;
+            alert("You Won!")
+        }
+        else if (guessesLeft == 0) {
+            loss++;
+            document.getElementById("loss").innerHTML = loss;
+            alert("You Lost!");
+        }
+
+    }
+
+    document.onkeyup = function (event) {
+        console.log("OnKeyup function called")
+        var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase();
+        console.log(letterGuessed)
+        checkLetters(letterGuessed);
+        roundComplete();
+
+    }
+
+  </script>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container text-center">
 
-    <div class="jumbotron">
+    <div class="jumbotron p-3 mb-2 bg-primary text-white">
       <h1>Hangman Game</h1>
-      <p>Gussed Artist Name</p>
+      <p>Guess Artist Name</p>
     </div>
 
 
@@ -58,7 +121,7 @@
         <h3 class="panel-tilte">word to Gussed</h3>
       </div>
       <div class="panel-body">
-        <h2>--------</h2>
+        <h2 id="wordToGuess"> - - - - - - - - -</h2>
       </div>
     </div>
 
@@ -66,7 +129,7 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
-        Wrong Gusses: <span id="wrongGusses"></span>
+        Wrong Gusses: <span id="wrongLetters"></span>
       </div>
     </div>
 
@@ -74,7 +137,7 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
-        Gusses Left: <span id="numgusses"></span>
+        Gusses Left: <span id="numguesses"></span>
       </div>
     </div>
 
@@ -82,7 +145,7 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
-        Win counter: <span id="winCounter"></span>
+        Win : <span id="win"></span>
       </div>
     </div>
 
@@ -90,18 +153,15 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
-        Loss counter: <span id="lossCounter"></span>
+        Loss : <span id="loss"></span>
       </div>
     </div>
 
-    <script src="logic.js"></script>
-
-
-
-
-
+    <input type="button" value="Start Game" onclick="javascript:startGame();">
 
   </div>
+ 
+  <!--script type="javascript" src="logic.js"></script-->
 
 </body>
 
